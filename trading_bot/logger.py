@@ -1,43 +1,73 @@
-import logging
 import os
+import logging
 from datetime import datetime
 
 class Logger:
-    def __init__(self):
-        self.setup_logger()
+    _instances = {}  # Dicionário para armazenar instâncias únicas do logger
 
-    def setup_logger(self):
-        """Configura o logger do sistema"""
-        # Cria o diretório de logs se não existir
-        os.makedirs("logs", exist_ok=True)
+    def __init__(self, prefix=''):
+        """Inicializa o logger
         
-        # Nome do arquivo de log com a data atual
-        log_file = f"logs/donkey_bot_{datetime.now().strftime('%Y%m%d')}.log"
-        
-        # Configura o logger
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(log_file),
-                logging.StreamHandler()
-            ]
-        )
-        
-        self.logger = logging.getLogger(__name__)
+        Args:
+            prefix (str): Prefixo para o nome do arquivo de log
+        """
+        # Se já existe um logger com este prefixo, reutiliza
+        if prefix in Logger._instances:
+            self.logger = Logger._instances[prefix]
+            return
 
-    def log_info(self, mensagem):
+        # Criar diretório de logs se não existir
+        if not os.path.exists('logs'):
+            os.makedirs('logs')
+            
+        # Configurar nome do arquivo
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        prefix_str = f"{prefix}_" if prefix else ""
+        log_file = f"logs/{prefix_str}donkey_bot_{timestamp}.log"
+        
+        # Configurar logger
+        logger_name = f"donkey_bot_{prefix}"
+        self.logger = logging.getLogger(logger_name)
+        
+        # Se o logger já tem handlers, não configura novamente
+        if not self.logger.handlers:
+            self.logger.setLevel(logging.INFO)
+            
+            # Configurar formato do log
+            formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+            
+            # Handler para arquivo
+            file_handler = logging.FileHandler(log_file)
+            file_handler.setFormatter(formatter)
+            self.logger.addHandler(file_handler)
+            
+            # Handler para console
+            console_handler = logging.StreamHandler()
+            console_handler.setFormatter(formatter)
+            self.logger.addHandler(console_handler)
+            
+            # Evitar propagação para o logger root
+            self.logger.propagate = False
+        
+        # Armazenar a instância para reutilização
+        Logger._instances[prefix] = self.logger
+
+    def info(self, message):
         """Registra uma mensagem de informação"""
-        self.logger.info(mensagem)
-
-    def log_error(self, mensagem):
+        self.logger.info(message)
+        
+    def error(self, message):
         """Registra uma mensagem de erro"""
-        self.logger.error(mensagem)
-
-    def log_warning(self, mensagem):
+        self.logger.error(message)
+        
+    def warning(self, message):
         """Registra uma mensagem de aviso"""
-        self.logger.warning(mensagem)
-
-    def log_debug(self, mensagem):
-        """Registra uma mensagem de debug"""
-        self.logger.debug(mensagem) 
+        self.logger.warning(message)
+    
+    def debug(self, message):
+        """Registra mensagem de debug"""
+        self.logger.debug(message)
+    
+    def critical(self, message):
+        """Registra mensagem crítica"""
+        self.logger.critical(message) 

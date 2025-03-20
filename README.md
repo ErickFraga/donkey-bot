@@ -1,4 +1,4 @@
-# Bot de Trading de Criptomoedas
+# Donkey Bot
 
 Este é um bot de trading automatizado para criptomoedas que utiliza a estratégia de cruzamento de médias móveis para executar operações na Binance.
 
@@ -22,8 +22,8 @@ O bot utiliza as seguintes regras para trading:
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/crypto-trading-bot.git
-cd crypto-trading-bot
+git clone https://github.com/ErickFraga/donkey-bot.git
+cd donkey-bot
 ```
 
 2. Instale as dependências:
@@ -90,3 +90,7 @@ requirements.txt        # Dependências
 ## Contribuições
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests. 
+
+
+## Anotações
+ - Atingiu lucro de 11% em um backtest de 3 meses

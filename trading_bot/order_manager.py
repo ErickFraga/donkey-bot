@@ -3,14 +3,15 @@ import os
 from datetime import datetime
 
 class OrderManager:
-    def __init__(self):
-        self.orders_file = "data/orders.json"
-        self._create_directory()
-        self._initialize_file()
-
-    def _create_directory(self):
-        """Create data directory if it doesn't exist"""
+    def __init__(self, prefix=''):
+        # Criar diretório para salvar as ordens
         os.makedirs("data", exist_ok=True)
+        
+        # Gerar nome do arquivo com timestamp
+        self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        prefix_str = f"{prefix}_" if prefix else ""
+        self.orders_file = f"data/{prefix_str}orders_{self.timestamp}.json"
+        self._initialize_file()
 
     def _initialize_file(self):
         """Initialize orders file if it doesn't exist"""

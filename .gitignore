@@ -1,8 +1,10 @@
 .env
 .vscode
+.DS_Store
 
 data/
 logs/
+charts/
 
 **/__pycache__/
 
