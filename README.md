@@ -51,12 +51,19 @@ Bot de trading desenvolvido para operar na Binance usando estratégias adaptativ
 
 ### Variáveis de Ambiente (.env)
 ```env
+TELEGRAM_BOT_TOKEN=seu_bot_token
+TELEGRAM_CHAT_ID=seu_chat_id
+
 BINANCE_API_KEY=sua_api_key
 BINANCE_API_SECRET=sua_api_secret
+
 SYMBOL=BTCUSDT
-QUANTITY=0.001
+QUANTITY=0.0001
+
+ENV=DEV ou PROD 
+
 STOP_LOSS_PERCENT=2.0
-TAKE_PROFIT_PERCENT=3.0
+TAKE_PROFIT_PERCENT=4.0
 ```
 
 ### Instalação
