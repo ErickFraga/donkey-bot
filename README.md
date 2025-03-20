@@ -1,91 +1,128 @@
-# Donkey Bot
+# 🤖 Donkey Bot - Bot de Trading com Estratégias Adaptativas
 
-Este é um bot de trading automatizado para criptomoedas que utiliza a estratégia de cruzamento de médias móveis para executar operações na Binance.
+Bot de trading desenvolvido para operar na Binance usando estratégias adaptativas baseadas em médias móveis e indicadores técnicos.
 
-## Estratégia
+## 📊 Estratégias Implementadas
 
-O bot utiliza as seguintes regras para trading:
+### Estratégia Principal - Cruzamento de Médias Móveis Adaptativo
+- **Médias Utilizadas**:
+  - Média Curta: 9 períodos
+  - Média Longa: 21 períodos
 
-- Médias móveis: curta (8 períodos) e longa (21 períodos)
-- Sinal de compra: média curta cruza acima da média longa
-- Stop Loss: -2% do preço de entrada
-- Take Profit: +3% do preço de entrada
-- Trailing Stop: Quando atinge o take profit, atualiza o stop loss e take profit mantendo as mesmas porcentagens
+### Sinais de Entrada (Compra)
+1. **Confirmação de Tendência**:
+   - Média curta cruza a média longa para cima
+   - Preço atual acima de ambas as médias
+   - Validação da força da tendência
 
-## Requisitos
+### Sinais de Saída (Venda)
+1. **Stop Loss Dinâmico**:
+   - Baseado na volatilidade do mercado (ATR)
+   - Ajusta-se automaticamente entre 0.5% e 5%
+   - Trailing stop que acompanha a subida do preço
 
-- Python 3.8+
-- Conta na Binance
-- Bot do Telegram (para notificações)
+2. **Take Profit Dinâmico**:
+   - Baseado na força da tendência
+   - Ajusta-se entre 1% e 10%
+   - Aumenta em tendências fortes
 
-## Instalação
+3. **Sinais Técnicos**:
+   - Média curta abaixo da média longa
+   - Força da tendência muito fraca (< 0.05%)
+   - Preço abaixo da média curta
 
-1. Clone o repositório:
-```bash
-git clone https://github.com/ErickFraga/donkey-bot.git
-cd donkey-bot
+### Gestão de Risco
+1. **Volatilidade Adaptativa**:
+   - Uso do ATR (Average True Range) para medir volatilidade
+   - Stop loss mais largo em mercados voláteis
+   - Stop loss mais próximo em mercados estáveis
+
+2. **Força da Tendência**:
+   - Cálculo dinâmico da força da tendência
+   - Ajuste automático dos alvos de lucro
+   - Proteção contra tendências fracas
+
+3. **Trailing Stop**:
+   - Stop loss móvel que acompanha o preço
+   - Protege lucros em tendências fortes
+   - Atualização contínua baseada na volatilidade
+
+## 🛠 Configuração
+
+### Variáveis de Ambiente (.env)
+```env
+BINANCE_API_KEY=sua_api_key
+BINANCE_API_SECRET=sua_api_secret
+SYMBOL=BTCUSDT
+QUANTITY=0.001
+STOP_LOSS_PERCENT=2.0
+TAKE_PROFIT_PERCENT=3.0
 ```
 
-2. Instale as dependências:
+### Instalação
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Copie o arquivo .env.example para .env e configure suas variáveis:
+## 🚀 Uso
+
+### Trading ao Vivo
 ```bash
-cp .env.example .env
+python run_bot.py
 ```
 
-4. Configure as seguintes variáveis no arquivo .env:
-- BINANCE_API_KEY: Sua API key da Binance
-- BINANCE_API_SECRET: Sua API secret da Binance
-- TELEGRAM_BOT_TOKEN: Token do seu bot do Telegram
-- TELEGRAM_CHAT_ID: ID do chat onde receberá as notificações
-- SYMBOL: Par de trading (ex: BTCUSDT)
-- QUANTIDADE: Quantidade para operar
-
-## Uso
-
-Para iniciar o bot:
+### Backtesting
 ```bash
-python main.py
+python run_backtest.py
 ```
 
-## Funcionalidades
+## 📈 Análise de Performance
 
-- Trading automatizado baseado em médias móveis
-- Stop Loss e Take Profit automáticos
-- Trailing Stop para maximizar lucros
-- Notificações via Telegram
-- Registro de ordens em JSON
-- Sistema de logs detalhado
+O bot gera métricas detalhadas de performance incluindo:
 
-## Estrutura do Projeto
+1. **Métricas Gerais**:
+   - Total de trades
+   - Taxa de acerto (Win rate)
+   - Trades vencedores/perdedores
 
-```
-trading_bot/
-├── trading_manager.py  # Gerenciador principal de trading
-├── order_manager.py    # Gerenciamento de ordens
-├── telegram_notifier.py # Notificações Telegram
-└── logger.py           # Sistema de logs
+2. **Métricas de Lucro/Prejuízo**:
+   - Lucro líquido
+   - Fator de lucro
+   - Lucro médio por trade
 
-data/
-└── orders.json         # Histórico de ordens
+3. **Métricas de Risco**:
+   - Drawdown máximo
+   - Relação risco/retorno
+   - Volatilidade da estratégia
 
-logs/
-└── trading_bot_*.log   # Arquivos de log
+4. **Métricas de Tempo**:
+   - Tempo em trades
+   - Trades por dia
+   - Duração média dos trades
 
-main.py                 # Arquivo principal
-requirements.txt        # Dependências
-.env                    # Configurações
-```
+## 📊 Visualização
 
-## Avisos
+O bot gera gráficos interativos com:
+- Candlesticks
+- Médias móveis
+- Pontos de entrada/saída
+- Níveis de stop loss e take profit
+- Indicadores técnicos
+
+## 📝 Logs
+
+Sistema de logging detalhado com:
+- Registro de todas as operações
+- Atualizações de stops
+- Métricas de performance
+- Alertas e avisos
+
+## ⚠️ Avisos
 
 - Este bot é para fins educacionais
-- Trading de criptomoedas envolve riscos
-- Teste primeiro em uma conta de teste
-- Não invista mais do que pode perder
+- Opere sempre com capital de risco
+- Resultados passados não garantem resultados futuros
+- Faça seus próprios testes antes de operar com dinheiro real
 
 ## Contribuições
 
