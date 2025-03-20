@@ -1,0 +1,11 @@
+.env
+.vscode
+
+data/
+logs/
+
+**/__pycache__/
+
+*.log
+*.json
+*.csv
